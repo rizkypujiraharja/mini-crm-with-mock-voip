@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserLoginResource;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -24,8 +25,12 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => new UserLoginResource(Auth::user()),
         ]);
     }
 
+    public function me()
+    {
+        return new UserLoginResource(Auth::user());
+    }
 }

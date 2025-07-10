@@ -39,6 +39,6 @@ class CallLogController extends Controller
 
         $call->save();
 
-        return response()->json(new CallLogResource($call));
+        return new CallLogResource($call);
     }
 }
