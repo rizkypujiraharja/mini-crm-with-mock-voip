@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import api from '../axios';
+import api from '@/lib/axios';
 
 Vue.use(Vuex);
 

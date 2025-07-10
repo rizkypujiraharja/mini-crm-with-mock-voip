@@ -8,12 +8,11 @@
 </template>
 
 <script>
-import api from '@/axios';
+import api from '@/lib/axios';
 
 export default {
   async mounted() {
     try {
-      console.log(23)
       const response = await api.get("/auth/me");
       this.$store.commit("SET_USER", response.data.data);
     } catch (err) {
