@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from '../store';
+import store from '@/store';
 
-import HomeView from '../views/HomeView.vue'
-import Login from '../views/Login.vue'
+import Contacts from '@/views/Contacts.vue'
+import CallLogs from '@/views/CallLogs.vue'
+import Login from '@/views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -14,14 +15,20 @@ const router = new VueRouter({
   routes: [
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login,
       meta: { layout: 'auth' },
     },
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'contacts',
+      component: Contacts,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/call-logs',
+      name: 'callLogs',
+      component: CallLogs,
       meta: { requiresAuth: true },
     },
   ]
