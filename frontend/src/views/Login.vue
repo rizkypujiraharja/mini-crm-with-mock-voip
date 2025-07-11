@@ -50,7 +50,7 @@
             />
           </a-input>
         </a-form-item>
-        <a-button type="primary" html-type="submit" class="login-form-button">
+        <a-button type="primary" html-type="submit" class="w-full">
           Log in
         </a-button>
         <p v-if="error" style="color: red">{{ error }}</p>
@@ -76,7 +76,7 @@ export default {
       e.preventDefault();
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          const success = await this.$store.dispatch("login", {
+          const success = await this.$store.dispatch("auth/login", {
             email: this.email,
             password: this.password,
           });
@@ -96,8 +96,5 @@ export default {
 <style scoped>
 #components-form-demo-normal-login {
   width: 360px;
-}
-.login-form-button {
-  width: 100%;
 }
 </style>

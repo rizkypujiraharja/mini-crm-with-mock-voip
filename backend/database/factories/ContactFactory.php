@@ -20,7 +20,7 @@ class ContactFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'company_id' => Company::first()->id,
+            'company_id' => Company::inRandomOrder()->first()->id,
             'phone' => fake()->phoneNumber(),
             'role' => fake()->randomElement(RoleEnum::cases()),
         ];

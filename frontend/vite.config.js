@@ -25,5 +25,8 @@ export default defineConfig({
     watch: {
       usePolling: true
     }
-  }
+  },
+  css: {
+    postcss: './postcss.config.js',
+  },
 })

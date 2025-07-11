@@ -1,12 +1,13 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider v-model="collapsed" :trigger="null" collapsible :style="{minHeight:'100vh'}">
+    <a-layout-sider
+      v-model="collapsed"
+      :trigger="null"
+      collapsible
+      :style="{ minHeight: '100vh' }"
+    >
       <div class="logo">CRM</div>
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :selected-keys="[this.$route.name]"
-      >
+      <a-menu theme="dark" mode="inline" :selected-keys="[this.$route.name]">
         <a-menu-item key="contacts" @click="$router.push({ name: 'contacts' })">
           <a-icon type="contacts" />
           <span>Contacts</span>
@@ -18,15 +19,27 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
+      <a-layout-header
+        style="background: #fff; padding: 0"
+        class="flex justify-between"
+      >
         <a-icon
           class="trigger"
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
           @click="() => (collapsed = !collapsed)"
         />
+        <div class="mr-6 flex items-center">
+          <a-icon type="user" class="mr-2" />
+          <span>{{ getUser?.name }}</span>
+        </div>
       </a-layout-header>
       <a-layout-content
-        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', flex: 'unset' }"
+        :style="{
+          margin: '24px 16px',
+          padding: '24px',
+          background: '#fff',
+          flex: 'unset',
+        }"
       >
         <router-view />
       </a-layout-content>
@@ -35,8 +48,8 @@
 </template>
 
 <script>
-
-import api from '@/lib/axios';
+import api from "@/lib/axios";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -44,13 +57,16 @@ export default {
       collapsed: false,
     };
   },
+  computed: {
+    ...mapGetters("auth", ["getUser"]),
+  },
   async mounted() {
     try {
       const response = await api.get("/auth/me");
-      this.$store.commit("SET_USER", response.data.data);
+      this.$store.commit("auth/SET_USER", response.data.data);
     } catch (err) {
-      this.$store.dispatch('logout');
-      this.$router.push('/login');
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     }
   },
 };
@@ -79,4 +95,3 @@ export default {
   justify-content: center;
 }
 </style>
-
