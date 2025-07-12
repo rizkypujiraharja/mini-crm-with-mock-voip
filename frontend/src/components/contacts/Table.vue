@@ -2,11 +2,11 @@
   <a-table
     :pagination="false"
     :columns="columns"
-    :data-source="allContacts"
+    :data-source="contacts"
     :rowKey="(record) => record.id"
   >
-    <a-tag slot="role" slot-scope="text" :color="contactRoles[text].color">
-      {{ contactRoles[text].label }}
+    <a-tag slot="role" slot-scope="role" :color="contactRoles[role].color">
+      {{ contactRoles[role].label }}
     </a-tag>
     <a-button
       slot="action"
@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("contacts", ["allContacts"]),
+    ...mapGetters("contacts", ["contacts"]),
     columns() {
       return [
         {
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     call(contact) {
-      console.log(contact);
+      this.$store.dispatch("callLogs/startCall", contact)
     },
   },
 };

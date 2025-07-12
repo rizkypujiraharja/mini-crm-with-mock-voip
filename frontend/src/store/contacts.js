@@ -4,7 +4,6 @@ const state = {
   contacts: [],
   filter: {},
   pagination: {},
-  selectedContact: {},
 };
 
 const mutations = {
@@ -16,12 +15,6 @@ const mutations = {
   },
   SET_PAGINATION(state, pagination) {
     state.pagination = pagination;
-  },
-  SET_SELECTED_CONTACT(state, contact) {
-    state.selectedContact = contact;
-  },
-  RESET_SELECTED_CONTACT(state) {
-    state.selectedContact = {};
   },
 };
 
@@ -35,12 +28,6 @@ const actions = {
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination);
   },
-  selectContact({ commit }, contact) {
-    commit('SET_SELECTED_CONTACT', contact);
-  },
-  clearSelectedContact({ commit }) {
-    commit('RESET_SELECTED_CONTACT');
-  },
   async fetchContacts({ commit }) {
     const response = await api.get('/contacts', { params: state.filter });
     commit('SET_CONTACTS', response.data.data);
@@ -49,10 +36,9 @@ const actions = {
 };
 
 const getters = {
-  allContacts: state => state.contacts,
+  contacts: state => state.contacts,
   currentFilter: state => state.filter,
   pagination: state => state.pagination,
-  selectedContact: state => state.selectedContact,
 };
 
 export default {

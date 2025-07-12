@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('contact_id');
             $table->foreignId('company_id');
+            $table->string('phone');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
             $table->integer('duration_in_second')->nullable();

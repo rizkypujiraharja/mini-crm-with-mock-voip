@@ -19,6 +19,7 @@ class CallLogResource extends JsonResource
             'user_id' => $this->user_id,
             'contact_id' => $this->contact_id,
             'company_id' => $this->company_id,
+            'phone' => $this->phone,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
             'duration_in_second' => $this->duration_in_second,

@@ -7,9 +7,18 @@
     <div class="mt-4">
       <ContactsTable></ContactsTable>
     </div>
-    <div class="mt-4" v-if="allContacts.length">
+    <div class="mt-4" v-if="contacts.length">
       <a-pagination :current="pagination?.current_page" :total="pagination?.total" :pageSize="pagination?.per_page" @change="setPage" />
     </div>
+
+    <a-modal
+      :visible="callLog != null"
+      :closable="false"
+      :footer="null"
+      :bodyStyle="{padding:0}"
+    >
+      <ModalCall v-if="callLog" :call="callLog" />
+    </a-modal>
   </div>
 </template>
 
@@ -18,17 +27,21 @@ import { mapGetters } from "vuex";
 
 import FormFilter from '../components/contacts/Filter.vue';
 import ContactsTable from '../components/contacts/Table.vue';
+import ModalCall from '../components/contacts/ModalCall.vue';
 
 export default {
   data() {
-    return {}
+    return {
+    }
   },
   components: {
     FormFilter,
-    ContactsTable
+    ContactsTable,
+    ModalCall
   },
   computed: {
-    ...mapGetters("contacts", ["pagination", "allContacts", ]),
+    ...mapGetters("contacts", ["pagination", "contacts"]),
+    ...mapGetters("callLogs", ["callLog"]),
   },
   created() {
     const query = { ...this.$route.query };
@@ -41,7 +54,7 @@ export default {
       this.$router.replace({query});
       this.$store.dispatch("contacts/setFilter", query)
       this.$store.dispatch("contacts/fetchContacts");
-    }
+    },
   }
 };
 </script>

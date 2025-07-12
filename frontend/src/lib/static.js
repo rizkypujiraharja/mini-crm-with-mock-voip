@@ -20,3 +20,26 @@ export const contactRoles = {
         color: 'purple',
     },
 }
+
+export const callLogStatuses = {
+    completed: {
+        label: 'Completed',
+        color: 'green',
+    },
+    missed: {
+        label: 'Missed',
+        color: 'pink',
+    },
+    cancelled: {
+        label: 'Cancelled',
+        color: 'purple',
+    },
+    no_answer: {
+        label: 'No Answer',
+        color: 'orange',
+    },
+    rejected: {
+        label: 'Rejected',
+        color: 'red',
+    },
+}

@@ -17,7 +17,7 @@ class CallLogController extends Controller
     {
         $calls = CallLog::with('contact', 'company')
             ->when($request->start_date, fn($q, $start_date) => $q->where('created_at', '>=', $start_date))
-            ->when($request->end_date, fn($q, $end_date) => $q->where('created_at', '>=', $end_date))
+            ->when($request->end_date, fn($q, $end_date) => $q->where('created_at', '<=', $end_date))
             ->paginate();
 
         return CallLogResource::collection($calls);
@@ -30,7 +30,9 @@ class CallLogController extends Controller
         $call->user_id = Auth::id();
         $call->contact_id = $contact->id;
         $call->company_id = $contact->company_id;
-        $call->status = array_rand(CallLogStatusEnum::cases());
+        $call->phone = $contact->phone;
+        $cases = CallLogStatusEnum::cases();
+        $call->status = $cases[array_rand($cases)];
         if ($call->status == CallLogStatusEnum::Completed) {
             $call->duration_in_second = rand(5, 600);
             $call->start_at = Carbon::now();
@@ -38,6 +40,8 @@ class CallLogController extends Controller
         }
 
         $call->save();
+
+        $call->load('contact', 'company');
 
         return new CallLogResource($call);
     }
