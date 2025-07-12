@@ -33,6 +33,15 @@ const actions = {
     commit('SET_CONTACTS', response.data.data);
     commit('SET_PAGINATION', response.data.meta);
   },
+  async toggleFavourite({ dispatch, commit, getters }, contact) {
+    const currentFilter = { ...getters.currentFilter }
+    currentFilter.page = 1
+    commit('SET_FILTER', currentFilter)
+
+    await api.post(`/contacts/${contact.id}/toggle-favourite`)
+
+    dispatch('fetchContacts')
+  }
 };
 
 const getters = {

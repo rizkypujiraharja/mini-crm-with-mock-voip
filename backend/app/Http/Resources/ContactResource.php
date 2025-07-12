@@ -20,6 +20,7 @@ class ContactResource extends JsonResource
             'name' => $this->name,
             'phone' => $this->phone,
             'role' => $this->role,
+            'is_favourite' => $this->is_favourite,
             'company' => $this->whenLoaded('company', fn () => new CompanyResource($this->company)),
         ];
     }

@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
 
     Route::get('/contacts', [ContactController::class, 'index']);
+    Route::post('/contacts/{contact}/toggle-favourite', [ContactController::class, 'toggleFavourite']);
     Route::resource('/call-logs', CallLogController::class)->only('index', 'store');
 });
