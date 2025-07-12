@@ -28,14 +28,6 @@ export const callLogStatuses = {
     },
     missed: {
         label: 'Missed',
-        color: 'pink',
-    },
-    cancelled: {
-        label: 'Cancelled',
-        color: 'purple',
-    },
-    no_answer: {
-        label: 'No Answer',
         color: 'orange',
     },
     rejected: {
