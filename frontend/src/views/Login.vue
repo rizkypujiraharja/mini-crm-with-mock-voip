@@ -82,7 +82,7 @@ export default {
           });
 
           if (success) {
-            this.$router.push("/");
+            this.$router.push({ name: 'contacts' })
           } else {
             this.error = "Email or password is incorrect";
           }

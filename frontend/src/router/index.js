@@ -21,6 +21,10 @@ const router = new VueRouter({
     },
     {
       path: '/',
+      redirect: '/contacts',
+    },
+    {
+      path: '/contacts',
       name: 'contacts',
       component: Contacts,
       meta: { requiresAuth: true },
