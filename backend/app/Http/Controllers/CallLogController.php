@@ -18,6 +18,7 @@ class CallLogController extends Controller
         $calls = CallLog::with('contact', 'company')
             ->when($request->start_date, fn($q, $start_date) => $q->where('created_at', '>=', $start_date))
             ->when($request->end_date, fn($q, $end_date) => $q->where('created_at', '<=', $end_date))
+            ->latest()
             ->paginate();
 
         return CallLogResource::collection($calls);

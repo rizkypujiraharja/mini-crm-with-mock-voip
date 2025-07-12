@@ -22,6 +22,7 @@ class CallLogResource extends JsonResource
             'phone' => $this->phone,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
+            'created_at' => $this->created_at,
             'duration_in_second' => $this->duration_in_second,
             'status' => $this->status,
             'contact' => $this->whenLoaded('contact', fn () => new ContactResource($this->contact)),

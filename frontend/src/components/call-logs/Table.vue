@@ -14,7 +14,14 @@
 
         <!-- Contact Info -->
         <div>
-          <div class="font-semibold text-gray-800">
+          <div class="font-semibold text-gray-800 flex items-center">
+            <a-icon
+              v-if="log.contact.is_favourite"
+              type="star"
+              class="mr-2"
+              theme="filled"
+              :class="{ 'text-yellow-500': log.contact.is_favourite }"
+            />
             {{ log.contact.name }}
           </div>
           <div class="text-xs text-gray-400">{{ log.company.name }}</div>
@@ -24,11 +31,7 @@
     </div>
 
     <div slot="timestamp" slot-scope="log">
-      <div v-if="log.start_at && log.end_at">
-        {{ log.start_at }}
-        <br> {{ log.end_at }}
-      </div>
-      <div v-else>-</div>
+        {{ formatLocalTime(log.created_at) }}
     </div>
 
     <div slot="duration" slot-scope="log">
@@ -43,10 +46,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-
-dayjs.extend(duration)
+import moment from 'moment';
 
 import { callLogStatuses } from "@/lib/static";
 
@@ -86,16 +86,19 @@ export default {
   },
   methods: {
     formattedDuration(durationInSeconds) {
-      const dur = dayjs.duration(durationInSeconds, 'seconds')
-      const min = String(dur.minutes()).padStart(2, '0')
-      const sec = String(dur.seconds()).padStart(2, '0')
-      return `${min}:${sec}`
+      const duration = moment.duration(durationInSeconds, 'seconds');
+      const minutes = String(duration.minutes()).padStart(2, '0');
+      const seconds = String(duration.seconds()).padStart(2, '0');
+      return `${minutes}:${seconds}`;
     },
     initial(name) {
       if (!name) return ''
       const words = name.trim().split(/\s+/) // pisahkan berdasarkan spasi
       const initials = words.slice(0, 2).map(word => word[0].toUpperCase()).join('')
       return initials
+    },
+    formatLocalTime(datetime) {
+      return moment(datetime).local().format('YYYY-MM-DD HH:mm:ss');
     }
   }
 };
