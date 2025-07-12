@@ -8,6 +8,10 @@
       <div
         class="w-32 h-32 bg-gray-700 rounded-full mb-8 flex items-center justify-center"
       >
+       <div
+        v-if="ringing"
+        class="absolute inset-0 rounded-full border-4 border-green-400 animate-ping"
+      ></div>
         <svg
           class="w-16 h-16 text-gray-400"
           fill="currentColor"
@@ -87,6 +91,10 @@
         </button>
       </div>
     </div>
+
+    <audio ref="ringtone" src="/ringing.wav" loop></audio>
+    <audio ref="successCall" src="/success-call.wav"></audio>
+    <audio ref="failedCall" src="/failed-call.wav"></audio>
   </div>
 </template>
 
@@ -97,6 +105,7 @@ export default {
     return {
       seconds: 0,
       interval: null,
+      ringing: true,
     }
   },
   props: {
@@ -112,9 +121,24 @@ export default {
     },
   },
   mounted() {
-    this.interval = setInterval(() => {
-      this.seconds++;
-    }, 1000);
+    this.$refs.ringtone.play().catch(() => {});
+    setTimeout(() => {
+      this.ringing = false;
+      this.$refs.ringtone.pause();
+      this.$refs.ringtone.currentTime = 0;
+      console.log(this.call)
+      if (this.call.status === "completed") {
+        this.$refs.successCall.play().catch(() => {});
+        this.interval = setInterval(() => {
+          this.seconds++;
+        }, 1000);
+      } else {
+        this.$refs.failedCall.play().catch(() => {});
+        setTimeout(() => {
+          this.closeModal();
+        }, 1000);
+      }
+    }, 4000);
   },
   beforeDestroy() {
     clearInterval(this.interval);
